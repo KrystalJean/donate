@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View and Manage Grids</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+            min-height: 250px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            display: flex;
+            border: 1px solid teal;
+            width: fit-content;
+            /* justify-content: center; */
+            /* align-items: center; */
+            /* border: none; */
+            border: 1px solid teal;
+            /* padding: 5px; */
+        }
+
+        .grid-row {
+            display: flex;
+            /* justify-content: space-between; */
+            /* margin-bottom: 5px; */
+        }
+
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: lightgray;
+            border: 1px solid teal;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .square.teal {
+            background-color: teal;
+            color: white;
+        }
+
+        /* .square.disabled {
+            opacity: 0.6;
+        } */
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>View and Manage Grids</h1>
+    </div>
+    <div class="container" id="mainContainer">
+        <div id="emptyGridMessage" style="display: none; text-align: center;">
+            <p>You do not have any cards.</p>
+            <button class="button" onclick="goToCreateCard()">Create Card</button>
+        </div>
+        <div id="grid1">
+            <h2>Grid 1</h2>
+            <div class="grid-container">
+                <!-- JavaScript will generate the grid here -->
+                <div id="app1">
+                    <!-- The grid will be generated here -->
+                </div>
+            </div>
+            <button class="button" onclick="editGrid(1)">Edit Grid 1</button>
+            <button class="button" onclick="deleteGrid(1)">Delete Grid 1</button>
+        </div>
+
+        <div id="grid2">
+            <h2>Grid 2</h2>
+            <div class="grid-container">
+                <!-- JavaScript will generate the grid here -->
+                <div id="app2">
+                    <!-- The grid will be generated here -->
+                </div>
+            </div>
+            <button class="button" onclick="editGrid(2)">Edit Grid 2</button>
+            <button class="button" onclick="deleteGrid(2)">Delete Grid 2</button>
+        </div>
+        <!-- Add more grids as needed -->
+    </div>
+
+
+    <script>
+        // JavaScript code to generate grids and manage them
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to create a grid with a specified number of squares
+            function createGrid(appId, numSquares) {
+                const app = document.getElementById(appId);
+                const numRows = Math.ceil(numSquares / 7);
+
+                for (let row = 0; row < numRows; row++) {
+                    const rowNumbers = [];
+
+                    for (let col = 1; col <= 7; col++) {
+                        const squareNumber = row * 7 + col;
+                        const square = document.createElement('div');
+                        square.classList.add('square');
+                        if (squareNumber <= numSquares) {
+                            square.textContent = '$' + squareNumber;
+                        } else {
+                            square.textContent = 'Any';
+                            square.classList.add('disabled');
+                        }
+                        rowNumbers.push(square);
+                    }
+
+                    const rowElement = document.createElement('div');
+                    rowElement.classList.add('grid-row');
+                    rowNumbers.forEach((square) => rowElement.appendChild(square));
+                    app.appendChild(rowElement);
+                }
+            }
+
+            // Example: Create grids for Grid 1 and Grid 2
+            createGrid("app1", 15); // 15 squares for Grid 1
+            createGrid("app2", 20); // 20 squares for Grid 2
+
+
+            // Check if grids are empty and show the empty message and button
+            checkEmptyGrid();
+        });
+
+        // Function to check if all grids are empty and show the empty message and button
+        function checkEmptyGrid() {
+            const mainContainer = document.getElementById("mainContainer");
+            const emptyMessage = document.getElementById("emptyGridMessage");
+
+            // Check if all grid containers are empty
+            const gridContainers = mainContainer.querySelectorAll(".grid-container");
+            const areAllGridsEmpty = Array.from(gridContainers).every(container => container.children.length === 0);
+
+            if (areAllGridsEmpty) {
+                emptyMessage.style.display = "block"; // Show the empty message
+            } else {
+                emptyMessage.style.display = "none"; // Hide the empty message
+            }
+        }
+
+        // Function to edit a grid (you can implement this as needed)
+        function editGrid(gridNumber) {
+            // Implement grid editing logic here
+            // Redirect to an edit page, for example
+            window.location.href = "edit_grid.html?grid=" + gridNumber;
+        }
+
+        // Function to delete a grid (you can implement this as needed)
+        function deleteGrid(gridNumber) {
+            // Implement grid deletion logic here
+            // Confirm deletion, and then remove the entire container for that grid
+            const confirmDelete = confirm("Are you sure you want to delete this grid?");
+            if (confirmDelete) {
+                const gridContainer = document.getElementById("grid" + gridNumber);
+                gridContainer.remove(); // Remove the entire container
+
+                // Check if all grid containers are now empty and show the empty message and button if needed
+                checkEmptyGrid();
+            }
+        }
+
+        // Function to go to the create_grid.html page
+        function goToCreateCard() {
+            window.location.href = "create_grid.html";
+        }
+
+    </script>
+</body>
+
+</html>

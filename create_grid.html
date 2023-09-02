@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Grid</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        /* Grid styles (similar to your previous grid) */
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid teal;
+            padding: 5px;
+            width: fit-content;
+        }
+
+        .grid-row {
+            display: flex;
+            /* justify-content: space-between; */
+            /* margin-bottom: 5px; */
+        }
+
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: lightgray;
+            border: 1px solid teal;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .square.teal {
+            background-color: teal;
+            color: white;
+        }
+
+        /* .square.disabled {
+            opacity: 0.6;
+        } */
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Create a Grid</h1>
+    </div>
+    <div class="container">
+        <!-- JavaScript will generate the grid here -->
+        <div id="app">
+            <!-- The grid will be generated here -->
+        </div>
+        <button class="button" onclick="goBack()">Go Back</button>
+    </div>
+
+    <!-- JavaScript code to handle the modal and grid creation -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const app = document.getElementById('app');
+            const urlParams = new URLSearchParams(window.location.search);
+            const numSquares = parseInt(urlParams.get('numSquares'), 10);
+
+            createGrid(numSquares);
+
+            function createGrid(numSquares) {
+                const numRows = Math.ceil(numSquares / 7);
+
+                for (let row = 0; row < numRows; row++) {
+                    const rowNumbers = [];
+
+                    for (let col = 1; col <= 7; col++) {
+                        const squareNumber = row * 7 + col;
+                        const square = document.createElement('div');
+                        square.classList.add('square');
+                        if (squareNumber <= numSquares) {
+                            square.textContent = '$' + squareNumber;
+                        } else {
+                            square.textContent = 'Any';
+                            square.classList.add('disabled');
+                        }
+                        rowNumbers.push(square);
+                    }
+
+                    const rowElement = document.createElement('div');
+                    rowElement.classList.add('grid-row');
+                    rowNumbers.forEach((square) => rowElement.appendChild(square));
+                    app.appendChild(rowElement);
+                }
+            }
+
+            function goBack() {
+                window.location.href = "dashboard.html";
+            }
+        });
+    </script>
+</body>
+</html>
