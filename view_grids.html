@@ -47,6 +47,7 @@
             /* border: none; */
             border: 1px solid teal;
             /* padding: 5px; */
+            /* margin: 5px; */
         }
 
         .grid-row {
@@ -71,9 +72,15 @@
             color: white;
         }
 
-        /* .square.disabled {
-            opacity: 0.6;
-        } */
+        label {
+            font-size: 16px;
+            padding: 0 10px;
+        }
+
+        input {
+            width: 50px;
+            font-size: 16px;
+        }
 
         .button {
             background-color: #007bff;
@@ -84,6 +91,19 @@
             cursor: pointer;
             margin: 10px;
         }
+         .cards {
+            padding: 0 10px;
+         }
+
+       .grid-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+       }
+
+       /* .grid-header h2 {
+        margin-right: 10px;
+       } */
     </style>
 </head>
 
@@ -96,28 +116,35 @@
             <p>You do not have any cards.</p>
             <button class="button" onclick="goToCreateCard()">Create Card</button>
         </div>
-        <div id="grid1">
-            <h2>Grid 1</h2>
+
+        <div id="grid1" class="cards">
+            <div class="grid-header">
+                <h2>Grid 1</h2>
+                <div class="questions"></div>
+            </div>
             <div class="grid-container">
                 <!-- JavaScript will generate the grid here -->
                 <div id="app1">
                     <!-- The grid will be generated here -->
                 </div>
             </div>
-            <button class="button" onclick="editGrid(1)">Edit Grid 1</button>
-            <button class="button" onclick="deleteGrid(1)">Delete Grid 1</button>
+            <button class="edit-button button" onclick="editGrid(1)">Edit Grid 1</button>
+            <button class="delete-button button" onclick="deleteGrid(1)">Delete Grid 1</button>
         </div>
 
-        <div id="grid2">
-            <h2>Grid 2</h2>
+        <div id="grid2" class="cards">
+            <div class="grid-header">
+                <h2>Grid 2</h2>
+                <div class="questions"></div>
+            </div>
             <div class="grid-container">
                 <!-- JavaScript will generate the grid here -->
                 <div id="app2">
                     <!-- The grid will be generated here -->
                 </div>
             </div>
-            <button class="button" onclick="editGrid(2)">Edit Grid 2</button>
-            <button class="button" onclick="deleteGrid(2)">Delete Grid 2</button>
+            <button class="edit-button button" onclick="editGrid(2)">Edit Grid 2</button>
+            <button class="delete-button button" onclick="deleteGrid(2)">Delete Grid 2</button>
         </div>
         <!-- Add more grids as needed -->
     </div>
@@ -141,7 +168,7 @@
                         if (squareNumber <= numSquares) {
                             square.textContent = '$' + squareNumber;
                         } else {
-                            square.textContent = 'Any';
+                            square.textContent = '$Any';
                             square.classList.add('disabled');
                         }
                         rowNumbers.push(square);
@@ -179,12 +206,31 @@
             }
         }
 
-        // Function to edit a grid (you can implement this as needed)
+        // Function to edit a grid
         function editGrid(gridNumber) {
-            // Implement grid editing logic here
-            // Redirect to an edit page, for example
-            window.location.href = "edit_grid.html?grid=" + gridNumber;
+            const gridContainer = document.getElementById("grid" + gridNumber);
+            const gridHeader = gridContainer.querySelector(".grid-header");
+            const questions = gridContainer.querySelector(".questions");
+            const editButton = gridContainer.querySelector(".button");
+            const inputLabel = document.createElement("label");
+            const input = document.createElement("input");
+
+            // 1. Add a border to the grid-container and its header
+            gridContainer.style.border = "2px solid #007bff";
+            // gridHeader.style.border = "2px solid #007bff";
+
+            // 2. Change the Edit Grid button to "Done?"
+            editButton.innerHTML = "Done?";
+            editButton.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
+
+            // 3. Add an input field to change the number of squares
+            inputLabel.textContent = "Number of squares?";
+            questions.appendChild(inputLabel);
+            questions.appendChild(input);
+
+            input.type = "number";
         }
+
 
         // Function to delete a grid (you can implement this as needed)
         function deleteGrid(gridNumber) {
