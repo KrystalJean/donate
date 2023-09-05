@@ -12,8 +12,25 @@
       background-color: #f0f0f0;
       height: 100vh;
       display: flex;
-      justify-content: center;
+      /* justify-content: center; */
       align-items: center;
+      flex-direction: column;
+      padding: 0;
+      margin: 0;
+    }
+
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      margin-bottom: 50px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .grid-header {
+      text-align: center;
+      margin: 0;
     }
 
     .grid-container {
@@ -23,6 +40,8 @@
       /* align-items: center; */
       border: 1px solid teal;
       /* padding: 5px; */
+      background: url(tball.jpg);
+      background-size: cover;
     }
 
     .grid-row {
@@ -42,36 +61,59 @@
       font-weight: bold;
     }
 
-    .square.teal {
-      background-color: teal;
-      color: white;
+    .square.transparent {
+      background-color: transparent;
+      color: transparent;
+      border: 1px solid transparent;
+    }
+
+    .totals {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .totals p {
+      margin-bottom: 0;
     }
   </style>
 </head>
 
 <body>
+
+  <div class="header">
+    <h1>Welcome to Donation Cards</h1>
+    <a href="./pages/login.html">
+      <button>Login Page</button>
+    </a>
+
+    <a href="./pages/dashboard.html">
+      <button>Dashboard Page</button>
+    </a>
+
+  </div>
+
   <div id="app">
+    <div class="totals">
+      <div>
+        <p>Goal: $<span id="goal-text">0</span></p>
+      </div>
 
-  <a href="./pages/login.html">
-    <button>Login Page</button>
-  </a>
+      <div>
+        <p>Raised: $<span id="raised-text">0</span></p>
+      </div>
+    </div>
 
-  <a href="./pages/dashboard.html">
-    <button>Dashboard Page</button>
-  </a>
-
-  <a href="./pages/donation-card.html">
-    <button>Donation Card</button>
-  </a>
-
-  <br><br>
-
+    <div class="grid-header">
+      <h2>T-Ball Uniform for Easton</h2>
+    </div>
     <!-- The grid will be generated here -->
   </div>
 
   <script>
     // JavaScript code to create the grid
     const app = document.getElementById('app');
+    let goalAmount = 0;
+    let raisedAmount = 0;
 
     function createGrid(numSquares) {
       const numRows = Math.ceil(numSquares / 7);
@@ -87,15 +129,29 @@
           square.classList.add('square');
           if (squareNumber <= numSquares) {
             square.textContent = '$' + squareNumber;
+            goalAmount = goalAmount + squareNumber
             square.addEventListener('click', () => {
               if (!square.classList.contains('disabled')) {
-                square.classList.add('teal');
+
+                const raisedText = document.getElementById('raised-text');
+                raisedAmount = raisedAmount + squareNumber;
+                raisedText.innerHTML = raisedAmount;
+
+                square.classList.add('transparent');
                 square.classList.add('disabled');
               }
-            });
+            })
+
           } else {
-            square.textContent = 'Any';
-            square.classList.add('disabled');
+            square.textContent = '$Any';
+            square.addEventListener('click', () => {
+              if (!square.classList.contains('disabled')) {
+                square.classList.add('transparent');
+                square.classList.add('disabled');
+
+              }
+            })
+            // square.classList.add('disabled');
           }
           rowNumbers.push(square);
         }
@@ -110,6 +166,10 @@
     }
 
     createGrid(31); // Call createGrid with the desired number of squares
+
+    const goalText = document.getElementById('goal-text');
+    goalText.innerHTML = goalAmount;
+
   </script>
 </body>
 
