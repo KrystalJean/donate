@@ -28,9 +28,10 @@
       width: 100%;
     }
 
-    .grid-header {
+    .grid-header h2 {
       text-align: center;
-      margin: 0;
+      margin: 10px 0;
+      /* padding: 0; */
     }
 
     .grid-container {
@@ -38,7 +39,7 @@
       flex-direction: column;
       /* justify-content: center; */
       /* align-items: center; */
-      border: 1px solid teal;
+      border: 1px solid black;
       /* padding: 5px; */
       background: url(tball.jpg);
       background-size: cover;
@@ -54,7 +55,7 @@
       width: 50px;
       height: 50px;
       background-color: lightgray;
-      border: 1px solid teal;
+      border: 1px solid black;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -75,6 +76,22 @@
     .totals p {
       margin-bottom: 0;
     }
+
+    .payment-methods {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .message {
+      width: 65%;
+      min-width: 400px;
+      max-width: 700px;
+      text-indent: 30px;
+      line-height: 1.25;
+      letter-spacing: .8px;
+      font-size: 1.2rem;
+    }
   </style>
 </head>
 
@@ -82,12 +99,17 @@
 
   <div class="header">
     <h1>Welcome to Donation Cards</h1>
-    <a href="./pages/login.html">
-      <button>Login Page</button>
+    
+    <a href="./pages/signup.html">
+      <button>Create Account</button>
+    </a>
+
+    <a href="./index.html">
+      <button style="background-color: #064180; color: #f0f0f0;">Home</button>
     </a>
 
     <a href="./pages/dashboard.html">
-      <button>Dashboard Page</button>
+      <button>My Dashboard</button>
     </a>
 
   </div>
@@ -106,12 +128,28 @@
     <div class="grid-header">
       <h2>T-Ball Uniform for Easton</h2>
     </div>
-    <!-- The grid will be generated here -->
+
+    <div id="grid-placement">
+      <!-- The grid will be generated here -->
+    </div>
+
+    <div class="payment-methods">
+      <p class="cash-app">Cash App:<a href="">@example1234</a></p>
+      <p class="venmo">Venmo:<a href="">@example1234</a></p>
+    </div>
+
   </div>
+
+
+
+  <p class="message">We are raising money to help with purchasing uniform, glove, and cleats for Easton. This is his
+    first year, and we would really appreciate any help from family, and friends in getting him ready for the season.
+    Thank you all so much for any help you can give. ❤️❤️❤️</p>
 
   <script>
     // JavaScript code to create the grid
     const app = document.getElementById('app');
+    const gridPlacement = document.getElementById('grid-placement');
     let goalAmount = 0;
     let raisedAmount = 0;
 
@@ -162,7 +200,7 @@
         grid.appendChild(rowElement);
       }
 
-      app.appendChild(grid);
+      gridPlacement.appendChild(grid);
     }
 
     createGrid(31); // Call createGrid with the desired number of squares

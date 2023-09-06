@@ -9,9 +9,19 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
+      margin: 0;
     }
 
-    .login-container {
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      margin-bottom: 50px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .signup-container {
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
@@ -39,7 +49,7 @@
       border-radius: 3px;
     }
 
-    button {
+    button[type="submit"] {
       width: 100%;
       padding: 10px;
       background-color: #007bff;
@@ -58,23 +68,41 @@
 </head>
 
 <body>
-  <div class="login-container">
-    <h1>Login</h1>
-    <form id="login-form">
+
+  <div class="header">
+    <h1>Welcome to Donation Cards</h1>
+    
+    <a href="./signup.html">
+      <button style="background-color: #064180; color: #f0f0f0;">Create Account</button>
+    </a>
+
+    <a href="/index.html">
+      <button>Home</button>
+    </a>
+
+    <a href="./dashboard.html">
+      <button>My Dashboard</button>
+    </a>
+
+  </div>
+
+  <div class="signup-container">
+    <h1>Create Account</h1>
+    <form id="signup-form">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required>
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
-      <button type="submit">Login</button>
+      <button type="submit">signup</button>
     </form>
     <p id="error-message" class="error-message"></p>
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
     const errorMessage = document.getElementById("error-message");
 
-    loginForm.addEventListener("submit", function (e) {
+    signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
         const username = document.getElementById("username").value;
@@ -83,10 +111,10 @@
         // Implement your authentication logic here (e.g., check username and password)
         // For example:
         if (username === "your_username" && password === "your_password") {
-            // Successful login
+            // Successful signup
             window.location.href = "dashboard.html"; // Redirect to dashboard or another page
         } else {
-            // Failed login
+            // Failed signup
             errorMessage.textContent = "Invalid username or password";
         }
     });
